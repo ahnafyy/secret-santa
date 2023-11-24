@@ -1,3 +1,4 @@
+
 # Secret Santa 🎅🎁
 
 ## Overview 🌟
@@ -41,7 +42,7 @@ Edit `config.json` to add participant details and set constraints:
 ],
 "BUDGET": 20
 }
-
+```
 3. Run the script
 
 ```bash
