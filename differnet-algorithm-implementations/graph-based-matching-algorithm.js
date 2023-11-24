@@ -61,7 +61,7 @@ const createGraph = (participantsData, dontPair, dontRepeat) => {
  * participants. Each key-value pair in the `Map` represents a match, where the key is the giver and
  * the value is the receiver.
  */
-const findMatching = (graph, retryLimit = 10) => {
+const findMatching = (graph, retryLimit = 100) => {
     let attempts = 0;
 
     while (attempts < retryLimit) {
@@ -75,7 +75,6 @@ const findMatching = (graph, retryLimit = 10) => {
 
             if (potentialReceiver) {
                 matches.set(giver, potentialReceiver);
-                available.delete(giver);
                 available.delete(potentialReceiver);
             }
         }
