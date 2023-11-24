@@ -2,21 +2,19 @@ const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('../config.json
 
 
 /**
- * The function "prepareParticipants" takes in an array of participants' data, a list of pairs that
- * should not be paired together, and a list of pairs that should not be repeated, and returns an array
- * of participants with their respective data and invalid matches.
- * @param participantsData - An array of strings representing participant data. Each string contains
- * the name and phone number of a participant, separated by a space.
- * @param dontPair - An array of pairs of participants who should not be paired together. Each pair is
- * represented as a string with two names separated by a comma (e.g., "Ahnaf, Jubair").
+ * The `createGraph` function takes in participants data, a list of pairs that should not be paired
+ * together, and a list of pairs that should not be repeated, and returns a graph representing the
+ * relationships between the participants.
+ * @param participantsData - An array of strings representing the names of participants in a graph.
+ * Each string contains the name of a participant.
+ * @param dontPair - The `dontPair` parameter is an array of pairs of participants who should not be
+ * paired together. Each pair is represented as a string with two names separated by a comma. For
+ * example, if `dontPair` is `['Ahnaf, Jubair', 'Turna, Hunter']`, it means that Ahnaf
  * @param dontRepeat - The `dontRepeat` parameter is an array of pairs of participants who should not
- * be paired together again. Each pair is represented as a string separated by a comma. For example, if
- * `dontRepeat` is `['Ahnaf, Jubair', 'Turna, Hunter']`, it means that Ahnaf should not be paired with
- * Jubair again, and Turna should not be paired with Hunter again.
- * @returns The function `prepareParticipants` returns an a graph data structure. A graph is a collection of 
- * nodes (also called vertices) and edges that connect  these nodes. In this case, the graph is represented 
- * as an object where each key is a participant and  the value is a set of participants that the key
- * participant cannot be matched with.
+ * be paired together more than once. Each pair is represented as a string with two names separated by
+ * a comma. For example, if `dontRepeat` is `['Ahnaf, Jubair']`, it means that Ahnaf should not be paired
+ *  with Jubair this year if they were paired together last year.
+ * @returns The function `createGraph` returns a graph represented as a `Map` object.
  */
 const createGraph = (participantsData, dontPair, dontRepeat) => {
     let graph = new Map();
@@ -27,30 +25,41 @@ const createGraph = (participantsData, dontPair, dontRepeat) => {
         graph.set(name, new Set());
     });
 
+    // Function to apply constraints
+    const applyConstraint = (person1, person2) => {
+        graph.get(person1).add(person2);
+        graph.get(person2).add(person1);
+    };
+
     // Apply DONT_PAIR constraints
     dontPair.forEach(pair => {
         const [person1, person2] = pair.split(',').map(p => p.trim());
-        graph.get(person1).add(person2);
-        graph.get(person2).add(person1);
+        applyConstraint(person1, person2);
     });
 
     // Apply DONT_REPEAT constraints
     dontRepeat.forEach(pair => {
         const [person1, person2] = pair.split(',').map(p => p.trim());
-        graph.get(person1).add(person2); // Only one-way constraint
+        applyConstraint(person1, person2);
     });
 
     return graph;
 };
 
+
 /**
- * The function findMatching is a placeholder for a complex matching algorithm implementation in
- * JavaScript. We will use it to find maximum bipartite matching in a graph.
- * @param participantNodes - The "participantNodes" parameter in the "findMatching" function represents
- * a graph data structure. A graph is a collection of nodes (also called vertices) and edges that connect 
- * these nodes. In this case, the graph is represented as an object where each key is a participant and 
- * the value is a set of participants that the key participant cannot be matched with.
- * @returns an object representing a matching between participants.
+ * The `findMatching` function attempts to find suitable matches for participants based on a given
+ * graph, with a specified retry limit.
+ * @param graph - The `graph` parameter is a Map object that represents the relationships between
+ * participants. The keys of the map represent the givers, and the values are Sets that contain the
+ * potential receivers for each giver. For example:
+ * @param [retryLimit] - The `retryLimit` parameter is the maximum number of attempts the function
+ * will make to find suitable matches for all participants. If the function is unable to find suitable
+ * matches within the specified number of attempts, it will throw an error.
+ * Default is set to 10
+ * @returns The function `findMatching` returns a `Map` object containing the matches between
+ * participants. Each key-value pair in the `Map` represents a match, where the key is the giver and
+ * the value is the receiver.
  */
 const findMatching = (graph, retryLimit = 10) => {
     let attempts = 0;
@@ -59,18 +68,19 @@ const findMatching = (graph, retryLimit = 10) => {
         let matches = new Map();
         let available = new Set(graph.keys());
 
-        graph.forEach((invalidMatches, giver) => {
-            const potentialReceiver = Array.from(available).find(receiver => 
-                !invalidMatches.has(receiver) && giver !== receiver
+        for (let giver of available) {
+            const potentialReceiver = Array.from(available).find(receiver =>
+                !graph.get(giver).has(receiver) && giver !== receiver
             );
 
             if (potentialReceiver) {
                 matches.set(giver, potentialReceiver);
+                available.delete(giver);
                 available.delete(potentialReceiver);
             }
-        });
+        }
 
-        if (matches.size === graph.size) {
+        if (matches.size === graph.size / 2) {
             return matches;
         }
 
@@ -79,9 +89,6 @@ const findMatching = (graph, retryLimit = 10) => {
 
     throw new Error('Unable to find suitable matches for all participants.');
 };
-
-
-
 
 /**
  * The function `runSecretSanta` assigns participants to each other for a Secret Santa gift exchange,
@@ -92,9 +99,8 @@ const runSecretSanta = () => {
         const participantNodes = createGraph(PARTICIPANTS, DONT_PAIR, DONT_REPEAT);
         const matches = findMatching(participantNodes);
 
-        matches.forEach((giver, index) => {
-            const receiver = matches[(index + 1) % matches.length];
-            console.log(`${giver.name} got ${receiver.name} for Secret Santa.`);
+        matches.forEach((receiver, giver) => {
+            console.log(`${giver} got ${receiver} for Secret Santa.`);
         });
         // Uncomment to send SMS
         // await sendSMS(matches, BUDGET);

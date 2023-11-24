@@ -12,7 +12,7 @@ const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json'
  * @param dontRepeat - The `dontRepeat` parameter is an array of pairs of participants who should not
  * be paired together again. Each pair is represented as a string separated by a comma. For example, if
  * `dontRepeat` is `['Ahnaf, Jubair', 'Turna, Hunter']`, it means that Ahnaf should not be paired with
- * Jubair again, and Turna should not be paired with Hunter again.
+ * Jubair this time since they were last year, and Turna should not be paired with Hunter again.
  * @returns The function `prepareParticipants` returns an array of participant objects. Each
  * participant object has properties for name, phone, and invalidMatches.
  */
