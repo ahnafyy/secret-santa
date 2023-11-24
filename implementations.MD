@@ -23,7 +23,7 @@ The **Randomized Constraint-Aware Matching Algorithm** shuffles the array and ke
 - **Randomized Matching**: Ensures every run is fair and different 🔄.
 - **Constraint Handling**: Respects `DONT_PAIR` and `DONT_REPEAT` rules to avoid certain pairings 🚫.
 - **Iterative and Recursive**: Continually reshuffles and reassigns until all constraints are met ✅.
-- **Efficiency**: Optimized for small to medium-sized groups, though may require several iterations for larger groups with for larger groups with numerous constraints
+- **Efficiency**: Optimized for small to medium-sized groups, though may require several iterations for larger groups with numerous constraints
 
 ## Final Notes
 Ideal for Secret Santa events and other scenarios where random yet rule-bound pairings are required. Balances randomness with the adherence to pre-set rules, providing an effective and engaging participant experience.
