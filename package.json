@@ -1,0 +1,13 @@
+{
+  "name": "secret-santa",
+  "version": "1.0.0",
+  "description": "Secret Santa project",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Ahnaf Prio",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

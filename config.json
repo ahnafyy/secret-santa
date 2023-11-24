@@ -1,0 +1,20 @@
+{
+  "PARTICIPANTS": [
+    "Ahnaf <+12345689000>",
+    "Turna <+12345689000>",
+    "Mobu <+12345689000>",
+    "Monica <+12345689000>",
+    "Jubair <+12345689000>",
+    "Clara <+12345689000>",
+    "Hunter <+12345689000>",
+    "Rafid <+12345689000>",
+    "Shai <+12345689000>"
+  ],
+  "DONT_PAIR": [
+    "Turna, Hunter",
+    "Mobu, Monica",
+    "Rafid, Shai"
+  ],
+  "DONT_REPEAT": [],
+  "BUDGET": 20
+}
