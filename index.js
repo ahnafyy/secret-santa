@@ -8,10 +8,11 @@ const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json'
  * @param participantsData - An array of strings representing participant data. Each string contains
  * the name and phone number of a participant, separated by a space.
  * @param dontPair - An array of pairs of participants who should not be paired together. Each pair is
- * represented as a string with two names separated by a comma (e.g., "John, Jane").
+ * represented as a string with two names separated by a comma (e.g., "Ahnaf, Jubair").
  * @param dontRepeat - The `dontRepeat` parameter is an array of pairs of participants who should not
  * be paired together again. Each pair is represented as a string separated by a comma. For example, if
- * `dontRepeat` is `['Alice, Bob', 'Charlie, David']`, it means that Alice should not
+ * `dontRepeat` is `['Ahnaf, Jubair', 'Turna, Hunter']`, it means that Ahnaf should not be paired with
+ * Jubair again, and Turna should not be paired with Hunter again.
  * @returns The function `prepareParticipants` returns an array of participant objects. Each
  * participant object has properties for name, phone, and invalidMatches.
  */
@@ -71,8 +72,8 @@ const sendSMS = (matches) => {
 };
 
 /**
- * The function `runSecretSanta` prepares participants, creates matches, sends SMS messages, and logs
- * the success or error message.
+ * The function `runSecretSanta` assigns participants to each other for a Secret Santa gift exchange,
+ * while considering any restrictions on pairings and a specified budget.
  */
 const runSecretSanta = async () => {
   try {
