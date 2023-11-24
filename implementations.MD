@@ -1,10 +1,6 @@
-## Implementation Explanations
-
----
+# Implementation Explanations
 
 ## Randomized Constraint-Aware Matching Algorithm 🌟
-
-## Overview 🔍
 
 The **Randomized Constraint-Aware Matching Algorithm** shuffles the array and keep trying to find a match and is a brute force implementation where we keep going until we find a match. This is defined in `index.js`
 
@@ -30,5 +26,4 @@ The **Randomized Constraint-Aware Matching Algorithm** shuffles the array and ke
 - **Efficiency**: Optimized for small to medium-sized groups, though may require several iterations for larger groups with for larger groups with numerous constraints
 
 ## Final Notes
-
 Ideal for Secret Santa events and other scenarios where random yet rule-bound pairings are required. Balances randomness with the adherence to pre-set rules, providing an effective and engaging participant experience.
