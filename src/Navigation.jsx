@@ -17,6 +17,18 @@ const Navigation = () => {
         <a className="navbar-brand" href="#">
           Secret Santa
         </a>
+        <div>
+          <input
+            type="checkbox"
+            class="btn-check"
+            id="btn-check"
+            autocomplete="off"
+            onClick={toggleMode}
+          />
+          <label class="btn" for="btn-check">
+            {darkMode ? 'Dark Mode' : 'Light Mode'}
+          </label>
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -41,18 +53,6 @@ const Navigation = () => {
               </a>
             </li>
           </ul>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            class="btn-check"
-            id="btn-check"
-            autocomplete="off"
-            onClick={toggleMode}
-          />
-          <label class="btn" for="btn-check">
-            {darkMode ? 'Dark Mode' : 'Light Mode'}
-          </label>
         </div>
       </div>
     </nav>
