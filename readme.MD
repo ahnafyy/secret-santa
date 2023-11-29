@@ -1,4 +1,3 @@
-
 # Secret Santa 🎅🎁
 
 ## Overview 🌟
@@ -28,25 +27,28 @@ Edit `config.json` to add participant details and set constraints:
 
 ```json
 {
-"PARTICIPANTS": [
- "Ahnaf <+12345689000>",
- "Jubair <+12345689000>",
- // Add more participants here
-],
-"DONT_PAIR": [
- "Ahnaf, Jubair",
- // Add pair constraints here
-],
-"DONT_REPEAT": [
- // Add last year's participants
-],
-"BUDGET": 20
+  "PARTICIPANTS": [
+    "Ahnaf <+12345689000>",
+    "Jubair <+12345689000>"
+    // Add more participants here
+  ],
+  "DONT_PAIR": [
+    "Ahnaf, Jubair"
+    // Add pair constraints here
+  ],
+  "DONT_REPEAT": [
+    // Add last year's participants
+  ],
+  "BUDGET": 20
 }
 ```
+
 3. Run the script
 
 ```bash
 node index.js
 ```
 
+Or
 
+Go to `http://localhost:8080/secret-santa`
