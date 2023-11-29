@@ -13,6 +13,7 @@ const AddParticipant = ({ addParticipant }) => {
 
   const onChangeFirstName = (e) => {
     setFirstName(e.target.value);
+    setFirstNameError('');
   };
 
   const onBlurFirstName = (e) => {
@@ -23,6 +24,7 @@ const AddParticipant = ({ addParticipant }) => {
 
   const onChangePhoneNumber = (e) => {
     setPhoneNumber(e.target.value);
+    setPhoneNumberError('' );
   };
 
   const onBlurPhoneNumber = (e) => {
@@ -35,6 +37,7 @@ const AddParticipant = ({ addParticipant }) => {
   };
 
   const onSubmit = () => {
+    if(firstName && phoneNumber && !firstNameError && !phoneNumberError){
     addParticipant(firstName, phoneNumber);
     setNameAdded(firstName);
     setFirstName('');
@@ -42,6 +45,7 @@ const AddParticipant = ({ addParticipant }) => {
     setPhoneNumber('');
     setPhoneNumberError('');
     setShowSuccessAlert(true);
+    }
   };
 
   return (
