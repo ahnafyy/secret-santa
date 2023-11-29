@@ -1,5 +1,7 @@
 # Secret Santa 🎅🎁
 
+Link: https://ahnafyy.github.io/secret-santa/
+
 ## Overview 🌟
 
 Secret Santa is a Node.js application designed to randomly assign participants their Secret Santa while respecting specific constraints like non-repeating pairs and exclusive pairings. Perfect for holiday fun!
