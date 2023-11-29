@@ -2,12 +2,16 @@ import React, { useContext } from 'react';
 import DarkModeContext from './Context/DarkModeContext';
 
 const Navigation = () => {
-  const darkMode = useContext(DarkModeContext);
+  const { darkMode, setDarkMode } = useContext(DarkModeContext);
+
+  const toggleMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   return (
     <nav
       className="navbar navbar-expand-lg bg-body-tertiary"
-      data-bs-theme={darkMode}
+      data-bs-theme={darkMode ? 'dark' : 'light'}
     >
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
@@ -37,6 +41,18 @@ const Navigation = () => {
               </a>
             </li>
           </ul>
+        </div>
+        <div>
+          <input
+            type="checkbox"
+            class="btn-check"
+            id="btn-check"
+            autocomplete="off"
+            onClick={toggleMode}
+          />
+          <label class="btn" for="btn-check">
+            {darkMode ? 'Dark Mode' : 'Light Mode'}
+          </label>
         </div>
       </div>
     </nav>

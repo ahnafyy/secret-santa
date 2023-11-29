@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import DarkModeContext from './Context/DarkModeContext';
 
 const ParticipantList = ({ participants = [], removeParticipant }) => {
+  const { darkMode } = useContext(DarkModeContext);
+
   return (
     <div className="row" style={{ margin: '15px' }}>
-      <div className="card" data-bs-theme="dark">
+      <div className="card" data-bs-theme={darkMode ? 'dark' : 'light'}>
         <div className="card-body">
           <h3 className="card-title">Participants</h3>
           {participants.length === 0 && (

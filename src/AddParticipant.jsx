@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import DarkModeContext from './Context/DarkModeContext';
 
 const AddParticipant = ({ addParticipant }) => {
+  const { darkMode } = useContext(DarkModeContext);
+
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [firstNameError, setFirstNameError] = useState('');
@@ -43,7 +46,7 @@ const AddParticipant = ({ addParticipant }) => {
 
   return (
     <div className="row" style={{ margin: '15px' }}>
-      <div className="card" data-bs-theme="dark">
+      <div className="card" data-bs-theme={darkMode ? 'dark' : 'light'}>
         <div className="card-body">
           {showSuccessAlert && (
             <div

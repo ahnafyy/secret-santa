@@ -5,6 +5,7 @@ import AddParticipant from './AddParticipant';
 import ParticipantList from './ParticipantList';
 
 const App = () => {
+  const [darkMode, setDarkMode] = useState(true);
   const [participants, setParticipants] = useState([]);
 
   const addParticipant = (firstName, phoneNumber) => {
@@ -15,8 +16,10 @@ const App = () => {
     setParticipants(participants.filter((_p, i) => i !== index));
   };
 
+  const value = { darkMode, setDarkMode };
+
   return (
-    <DarkModeContext.Provider value="dark">
+    <DarkModeContext.Provider value={value}>
       <Navigation />
       <main>
         <AddParticipant addParticipant={addParticipant} />
