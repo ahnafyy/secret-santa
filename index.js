@@ -2,6 +2,21 @@
 const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json');
 
 /**
+ * The function "createParticipant" takes an array of participant data and returns an array of
+ * participant objects with name, phone, and invalidMatches properties.
+ * @param participantsData - An array of strings representing participant data. Each string contains
+ * the name and phone number of a participant, separated by a space.
+ * @returns The function `createParticipant` returns an array of objects. Each object in the array
+ * represents a participant and has properties for `name`, `phone`, and `invalidMatches`.
+ */
+const createParticipant = (participantsData) => {
+  return participantsData.map(data => {
+    const [name, phone] = data.split(' ');
+    return { name, phone, invalidMatches: new Set() };
+  });
+}
+
+/**
  * The function "prepareParticipants" takes in an array of participants' data, a list of pairs that
  * should not be paired together, and a list of pairs that should not be repeated, and returns an array
  * of participants with their respective data and invalid matches.
@@ -17,15 +32,22 @@ const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json'
  * participant object has properties for name, phone, and invalidMatches.
  */
 const prepareParticipants = (participantsData, dontPair, dontRepeat) => {
-  const participants = participantsData.map(data => {
-    const [name, phone] = data.split(' ');
-    return { name, phone, invalidMatches: new Set() };
+  const participants = createParticipant(participantsData);
+
+  dontPair.forEach(pair => {
+    const [nameOfFirstPerson, nameOfSecondPerson] = pair.split(', ');
+    const firstPerson = participants.find(participant => participant.name === nameOfFirstPerson);
+    const secondPerson = participants.find(participant => participant.name === nameOfSecondPerson);
+
+    firstPerson.invalidMatches.add(nameOfSecondPerson);
+    secondPerson.invalidMatches.add(nameOfFirstPerson);
   });
 
-  [...dontPair, ...dontRepeat].forEach(pair => {
-    const [person1, person2] = pair.split(',').map(p => p.trim());
-    const person = participants.find(p => p.name === person1);
-    if (person) person.invalidMatches.add(person2);
+  dontRepeat.forEach(pair => {
+    const [nameOfGiver, nameOfReceiver] = pair.split(', ');
+    const giver = participants.find(participant => participant.name === nameOfGiver);
+
+    giver.invalidMatches.add(nameOfReceiver);
   });
 
   return participants;
@@ -42,20 +64,48 @@ const shuffleArray = array => {
 };
 
 /**
- * The function creates valid matches between participants by shuffling the array and ensuring that no
- * participant is matched with someone they have specified as an invalid match.
- * @returns The function `createMatches` returns either the `participants` array if all matches are
- * valid, or it recursively calls itself with the same `participants` array until valid matches are
- * found.
+ * The function `isValidMatch` checks if a giver and receiver are a valid match based on the receiver's
+ * name not being in the giver's list of invalid matches.
+ * @param giver - The `giver` parameter represents the person who is giving a gift. It could be an
+ * object that contains information about the giver, such as their name, preferences, and a set of
+ * invalid matches (people they cannot give a gift to).
+ * @param receiver - The `receiver` parameter represents the person who will receive a gift in a gift
+ * exchange.
+ * @returns The function `isValidMatch` returns a boolean value.
  */
- const createMatches = participants => {
-  shuffleArray(participants);
-  const validMatches = participants.every((giver, i) => {
-    const receiverIndex = (i + 1) % participants.length;
-    return !giver.invalidMatches.has(participants[receiverIndex].name);
-  });
+const isValidMatch = (giver, receiver) => {
+  return !giver.invalidMatches.has(receiver.name);
+};
 
-  return validMatches ? participants : createMatches(participants);
+/**
+ * The function creates valid matches between participants by shuffling the array and ensuring that no
+ * participant is matched with someone they have specified as an invalid match. It tries up to a certain
+ * number of times to find valid matches.
+ * @param participants The array of participants.
+ * @param retryLimit The maximum number of times to attempt to create matches. Defaults to 10.
+ * @returns The function returns either the `participants` array if all matches are valid, or null if it
+ * reaches the retry limit without finding valid matches.
+ */
+const createMatches = (participants, retryLimit = 10) => {
+    let attempt = 0;
+
+    while (attempt < retryLimit) {
+        shuffleArray(participants);
+
+        const validMatches = participants.every((giver, giverIndex) => {
+            const receiverIndex = (giverIndex + 1) % participants.length;
+            const receiver = participants[receiverIndex];
+            return isValidMatch(giver, receiver);
+        });
+
+        if (validMatches) {
+            return participants;
+        }
+
+        attempt++;
+    }
+
+    throw new Error('Unable to find suitable matches for all participants.');
 };
 
 /**
