@@ -9,27 +9,27 @@ const validationPhoneNumber = (input) => {
   return input && input.match(/[0-9]{10}|[0-9]{3}-[0-9]{3}-[0-9]{4}/g);
 };
 
-const AddParticipant = ({ addParticipant }) => {
+const AddParticipant = ({ addParticipant, finalize }) => {
   const { darkMode } = useContext(DarkModeContext);
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [firstNameError, setFirstNameError] = useState('');
+  const [name, setName] = useState('');
+  const [nameError, setNameError] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [nameAdded, setNameAdded] = useState('');
   const [phoneNumberError, setPhoneNumberError] = useState('');
 
   const onChangeFirstName = (e) => {
-    setFirstName(e.target.value);
-    setFirstNameError('');
+    setName(e.target.value);
+    setNameError('');
   };
 
-  const onBlurFirstName = (e) => {
+  const onBlurName = (e) => {
     const name = e.target.value;
     if (validationFirstName(name)) {
-      setFirstNameError('');
+      setNameError('');
     } else {
-      setFirstNameError('Please enter a valid first name.');
+      setNameError('Please enter a valid name.');
     }
   };
 
@@ -48,11 +48,11 @@ const AddParticipant = ({ addParticipant }) => {
   };
 
   const onSubmit = () => {
-    if(firstName && phoneNumber && !firstNameError && !phoneNumberError){
-    addParticipant(firstName, phoneNumber);
-    setNameAdded(firstName);
-    setFirstName('');
-    setFirstNameError('');
+    if(name && phoneNumber && !nameError && !phoneNumberError){
+    addParticipant(name, phoneNumber);
+    setNameAdded(name);
+    setName('');
+    setNameError('');
     setPhoneNumber('');
     setPhoneNumberError('');
     setShowSuccessAlert(true);
@@ -79,25 +79,25 @@ const AddParticipant = ({ addParticipant }) => {
           )}
           <h3 className="card-title">Secret Santa Generator</h3>
           <div className="mb-3">
-            <label htmlFor="firstName" className="form-label">
-              First name
+            <label htmlFor="name" className="form-label">
+              Name
             </label>
             <input
-              id="firstName"
+              id="name"
               className={`form-control ${
-                firstName === '' && firstNameError === ''
+                name === '' && nameError === ''
                   ? ''
-                  : firstNameError
+                  : nameError
                   ? 'is-invalid'
                   : 'is-valid'
               }`}
               type="text"
-              value={firstName}
+              value={name}
               onChange={onChangeFirstName}
-              onBlur={onBlurFirstName}
+              onBlur={onBlurName}
             />
-            {firstNameError && (
-              <div className="invalid-feedback">{firstNameError}</div>
+            {nameError && (
+              <div className="invalid-feedback">{nameError}</div>
             )}
           </div>
           <div className="mb-3">
@@ -125,7 +125,7 @@ const AddParticipant = ({ addParticipant }) => {
           <div className="mb-3">
             <button
               className="btn btn-secondary mb-3"
-              disabled={firstNameError || phoneNumberError}
+              disabled={nameError || phoneNumberError}
               onClick={onSubmit}
             >
               Add person
@@ -133,8 +133,8 @@ const AddParticipant = ({ addParticipant }) => {
             <button
               className="btn btn-success mb-3"
               style={{ float: 'right' }}
-              disabled={firstNameError || phoneNumberError}
-              onClick={onSubmit}
+              disabled={nameError || phoneNumberError}
+              onClick={finalize}
             >
               Finalize
             </button>

@@ -3,15 +3,19 @@ import Navigation from './Navigation';
 import DarkModeContext from './Context/DarkModeContext';
 import AddParticipant from './AddParticipant';
 import ParticipantList from './ParticipantList';
+import finalizeMatching from './Matching';
+import ShowMatchesBanner from './ShowMatchesBanner';
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [participants, setParticipants] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [shouldShowMatchesBanner, setShouldShowMatchesBanner] = useState(false);
 
-  const addParticipant = (firstName, phoneNumber) => {
+  const addParticipant = (name, phoneNumber) => {
     setParticipants([
       ...participants,
-      { firstName, phoneNumber, doNoMatchWith: [] },
+      { name, phoneNumber, doNoMatchWith: [] },
     ]);
   };
 
@@ -27,18 +31,29 @@ const App = () => {
     );
   };
 
+  const finalize = () => {
+    const matches = finalizeMatching(participants);
+    setMatches(matches);
+    // setShowMatchesBanner(true);
+  };
+
   const value = { darkMode, setDarkMode };
 
   return (
     <DarkModeContext.Provider value={value}>
       <Navigation />
       <main>
-        <AddParticipant addParticipant={addParticipant} />
+        <AddParticipant finalize={finalize} addParticipant={addParticipant} />
         <ParticipantList
           participants={participants}
           removeParticipant={removeParticipant}
           addDoNotMatch={addDoNotMatch}
         />
+        {shouldShowMatchesBanner &&
+          <ShowMatchesBanner
+            setShouldShowMatchesBanner={setShouldShowMatchesBanner}
+            matches={matches}
+          />}
       </main>
     </DarkModeContext.Provider>
   );
