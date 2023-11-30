@@ -1,6 +1,14 @@
 import React, { useContext, useState } from 'react';
 import DarkModeContext from './Context/DarkModeContext';
 
+const validationFirstName = (input) => {
+  return input && input.match(/[a-zA-Z]+/g);
+};
+
+const validationPhoneNumber = (input) => {
+  return input && input.match(/[0-9]{10}|[0-9]{3}-[0-9]{3}-[0-9]{4}/g);
+};
+
 const AddParticipant = ({ addParticipant }) => {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -16,7 +24,10 @@ const AddParticipant = ({ addParticipant }) => {
   };
 
   const onBlurFirstName = (e) => {
-    if (!firstName || !firstName.match(/[a-zA-Z]*/g)) {
+    const name = e.target.value;
+    if (validationFirstName(name)) {
+      setFirstNameError('');
+    } else {
       setFirstNameError('Please enter a valid first name.');
     }
   };
@@ -26,10 +37,10 @@ const AddParticipant = ({ addParticipant }) => {
   };
 
   const onBlurPhoneNumber = (e) => {
-    if (
-      !phoneNumber ||
-      !phoneNumber.match(/[0-9]{10}|[0-9]{3}-[0-9]{3}-[0-9]{4}/g)
-    ) {
+    const phone = e.target.value;
+    if (validationPhoneNumber(phone)) {
+      setPhoneNumberError('');
+    } else {
       setPhoneNumberError('Please enter a valid phone number.');
     }
   };
