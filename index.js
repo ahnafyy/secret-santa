@@ -3,16 +3,16 @@ const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json'
 
 /**
  * The function "createParticipant" takes an array of participant data and returns an array of
- * participant objects with name, phone, and invalidMatches properties.
+ * participant objects with name, phone, and doNotMatchWith properties.
  * @param participantsData - An array of strings representing participant data. Each string contains
  * the name and phone number of a participant, separated by a space.
  * @returns The function `createParticipant` returns an array of objects. Each object in the array
- * represents a participant and has properties for `name`, `phone`, and `invalidMatches`.
+ * represents a participant and has properties for `name`, `phone`, and `doNotMatchWith`.
  */
 const createParticipant = (participantsData) => {
   return participantsData.map(data => {
     const [name, phone] = data.split(' ');
-    return { name, phone, invalidMatches: new Set() };
+    return { name, phone, doNotMatchWith: [] };
   });
 }
 
@@ -29,7 +29,7 @@ const createParticipant = (participantsData) => {
  * `dontRepeat` is `['Ahnaf, Jubair', 'Turna, Hunter']`, it means that Ahnaf should not be paired with
  * Jubair this time since they were last year, and Turna should not be paired with Hunter again.
  * @returns The function `prepareParticipants` returns an array of participant objects. Each
- * participant object has properties for name, phone, and invalidMatches.
+ * participant object has properties for name, phone, and doNotMatchWith.
  */
 const prepareParticipants = (participantsData, dontPair, dontRepeat) => {
   const participants = createParticipant(participantsData);
@@ -39,15 +39,15 @@ const prepareParticipants = (participantsData, dontPair, dontRepeat) => {
     const firstPerson = participants.find(participant => participant.name === nameOfFirstPerson);
     const secondPerson = participants.find(participant => participant.name === nameOfSecondPerson);
 
-    firstPerson.invalidMatches.add(nameOfSecondPerson);
-    secondPerson.invalidMatches.add(nameOfFirstPerson);
+    firstPerson.doNotMatchWith.push(nameOfSecondPerson);
+    secondPerson.doNotMatchWith.push(nameOfFirstPerson);
   });
 
   dontRepeat.forEach(pair => {
     const [nameOfGiver, nameOfReceiver] = pair.split(', ');
     const giver = participants.find(participant => participant.name === nameOfGiver);
 
-    giver.invalidMatches.add(nameOfReceiver);
+    giver.doNotMatchWith.push(nameOfReceiver);
   });
 
   return participants;
@@ -74,7 +74,8 @@ const shuffleArray = array => {
  * @returns The function `isValidMatch` returns a boolean value.
  */
 const isValidMatch = (giver, receiver) => {
-  return !giver.invalidMatches.has(receiver.name);
+  const { doNotMatchWith = [] } = giver;
+  return !doNotMatchWith.includes(receiver.name);
 };
 
 /**
@@ -112,7 +113,7 @@ const createMatches = (participants, retryLimit = 10) => {
  * The function `sendSMS` sends SMS messages to participants in a Secret Santa gift exchange, informing
  * them of their assigned recipient and the budget for the gift.
  * @param matches - The `matches` parameter is an array of objects representing the participants in a
- * Secret Santa gift exchange. Each object has properties for name, phone, and invalidMatches.
+ * Secret Santa gift exchange. Each object has properties for name, phone, and doNotMatchWith.
  * @returns The function `sendSMS` is returning a promise that resolves to an array of messages sent to
  * the secret santa participants.
  */
@@ -150,4 +151,4 @@ module.exports = {
   runSecretSanta
 };
 
-runSecretSanta();
+// runSecretSanta();

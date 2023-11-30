@@ -13,7 +13,7 @@ describe('Secret Santa Tests', () => {
     config.DONT_PAIR.forEach(pair => {
       const [person1, person2] = pair.split(',').map(p => p.trim());
       const participant = participants.find(p => p.name === person1);
-      expect(participant.invalidMatches.has(person2)).toBeTruthy();
+      expect(participant.doNotMatchWith.includes(person2)).toBeTruthy();
     });
   });
 

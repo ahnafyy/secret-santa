@@ -26,7 +26,7 @@ const ParticipantList = ({
                 <div className="card col-sm-6 col-md-4">
                   <div className="card-body">
                     <span>
-                      <strong>First Name:</strong> {p.firstName}
+                      <strong>Name:</strong> {p.name}
                     </span>
                     <br />
                     <span>
@@ -48,7 +48,7 @@ const ParticipantList = ({
                         {participants
                           .filter((_p, innerIndex) => i !== innerIndex)
                           .map((p) => (
-                            <option>{p.firstName}</option>
+                            <option>{p.name}</option>
                           ))}
                       </select>
                     </div>
