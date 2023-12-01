@@ -25,7 +25,7 @@ git clone https://github.com/ahnafyy/secret-santa.git
 2. Run the script
 
 ```bash
-npm run start
+npm install && npm run start
 ```
 and go to `http://localhost:8080/secret-santa`
 
