@@ -77,31 +77,38 @@ const createGraph = (participantsData, dontPair, dontRepeat) => {
 const backtrack = (node, startNode, path, visited, graph) => {
     // Check if the current path includes all nodes and can form a cycle back to the start node
     if (path.length === graph.size && graph.get(node).has(startNode)) {
-        path.push(startNode); // Complete the cycle by adding the start node at the end
-        return true; // A valid cycle is found
+        // Complete the cycle by adding the start node at the end of the path
+        path.push(startNode); 
+        // A valid cycle is found
+        return true; 
     }
 
-    let foundCycle = false; // Flag to indicate if a cycle has been found
+    let foundCycle = false; 
 
     // Iterate over each neighbor of the current node
     graph.get(node).forEach(neighbor => {
         // Check if the neighbor has not been visited and no cycle has been found yet
         if (!visited.has(neighbor) && !foundCycle) {
-            visited.add(neighbor); // Mark the neighbor as visited
-            path.push(neighbor); // Add the neighbor to the current path
+            // Mark the neighbor as visited
+            visited.add(neighbor); 
+            // Add the neighbor to the current path
+            path.push(neighbor); 
 
             // Recursively call backtrack with the neighbor as the new current node
             if (backtrack(neighbor, startNode, path, visited, graph)) {
-                foundCycle = true; // A cycle is found, set the flag to true
+                 // A cycle is found, set the flag to true
+                foundCycle = true;
             } else {
                 // If no cycle found, backtrack by removing the neighbor from visited and path
-                visited.delete(neighbor); // Remove the neighbor from the visited set
-                path.pop(); // Remove the neighbor from the current path
+                // Remove the neighbor from the visited set
+                visited.delete(neighbor);
+                // Remove the neighbor from the current path
+                path.pop(); 
             }
         }
     });
 
-    return foundCycle; // Return whether a cycle has been found
+    return foundCycle; 
 };
 
 
