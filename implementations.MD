@@ -49,3 +49,35 @@ The **Graph-Based Secret Santa Algorithm** utilizes graph theory and backtrackin
 - **Constraint Respectful**: Adheres to `DONT_PAIR` and `DONT_REPEAT` constraints, ensuring certain pairings are avoided 🚫.
 - **Backtracking Algorithm**: Employs depth-first search with backtracking to explore all potential solutions ✅.
 - **Scalability and Efficiency**: Effective for various group sizes, with performance dependent on the number of constraints and participants 📈.
+
+## Genetic Algorithm 🧬
+
+The **Genetic Algorithm for Secret Santa Assignment** applies principles of genetic evolution to iteratively find an optimal or near-optimal Secret Santa pairing, considering specified constraints.
+
+### 1. Initialize Participants and Constraints (`createParticipants`) 👥
+- Extracts and processes participant names from the given array.
+- Constructs `DONT_PAIR` 🚫 and `DONT_REPEAT` 🔄 constraint maps to enforce specific pairing restrictions.
+
+### 2. Calculate Fitness Score (`calculateFitness`) 💪
+- Evaluates the suitability of each Secret Santa assignment in the population.
+- Assignments that better comply with the `dontPair` and `dontRepeat` constraints score higher.
+- Penalizes assignments where a participant is assigned to themselves.
+
+### 3. Parent Selection and Crossover (`selectParents`, `crossover`) 👫
+- Selects pairs of parents (assignments) from the current population based on fitness.
+- Creates new assignments (children) by combining parts of the parents, ensuring no participant is assigned to themselves and all are included.
+
+### 4. Mutation for Variation (`mutate`) 🧬
+- Introduces small, random changes to new assignments for diversity.
+- Swaps two participants in the assignment, maintaining validity.
+
+### 5. Run Genetic Algorithm (`runSecretSanta`) 🔄
+- Iteratively evolves the population through selection, crossover, and mutation.
+- Continuously assesses and updates the best solution found across generations.
+
+### Key Characteristics 🔑
+
+- **Evolutionary Approach**: Mimics natural selection and genetic evolution to optimize pairings 🌱.
+- **Constraint Awareness**: Adheres to `dontPair` and `dontRepeat` rules, ensuring specific pairings are avoided 🚫.
+- **Iterative Improvement**: Continually evolves the population, aiming for increasingly better solutions ✅.
+- **Scalable and Flexible**: Effective for various group sizes and adaptable to different constraint complexities 📊.

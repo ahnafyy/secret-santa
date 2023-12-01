@@ -23,8 +23,7 @@ const createParticipant = (participantsData) => {
  * following format:
  * @param dontPair - The `dontPair` parameter is an array of pairs of participants who should not be
  * paired together. Each pair is represented as a string with the names of the two participants
- * separated by a comma and a space. For example, if participant A should not be paired with
- * participant B, the `dontPair
+ * separated by a comma and a space. 
  * @param dontRepeat - The `dontRepeat` parameter is an array of pairs of names. Each pair represents a
  * constraint that specifies that the first person in the pair should not be assigned as a giver to the
  * second person in the pair.

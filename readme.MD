@@ -1,10 +1,10 @@
 # Secret Santa 🎅🎁
 
-Link: https://ahnafyy.github.io/secret-santa/
+Link to the webapp: https://ahnafyy.github.io/secret-santa/
 
 ## Overview 🌟
 
-Secret Santa is a Node.js application designed to randomly assign participants their Secret Santa while respecting specific constraints like non-repeating pairs and exclusive pairings. Perfect for holiday fun!
+Secret Santa is a Node.js application / some algorithmic solutions designed to randomly assign participants their Secret Santa while respecting specific constraints like non-repeating pairs and exclusive pairings. Perfect for holiday fun!
 
 ## Features 🎉
 
@@ -22,10 +22,20 @@ Make sure you have node installed on your box!
 ```bash
 git clone https://github.com/ahnafyy/secret-santa.git
 ```
+2. Run the script
 
-2. Update the config.json for what you would like it to be
+```bash
+npm run start
+```
+and go to `http://localhost:8080/secret-santa`
 
-Edit `config.json` to add participant details and set constraints:
+## Implementation 🚀
+
+Explore a variety of algorithmic approaches to the Secret Santa challenge! Check out the `different-algorithm-implementation` folder, where you'll find multiple implementations, each offering a unique take on solving the Secret Santa puzzle. Just run `node` on the JavaScript files and see the matches pop up in your console. It's a great way to compare methods and have some coding fun! 🎲
+
+For a detailed overview of each approach, including the logic and intricacies behind them, visit our [Implementation Details](https://github.com/ahnafyy/secret-santa/blob/main/implementations.MD) page. 🔍
+
+You can update the `config.json` for what you would like the algorithms to run on.
 
 ```json
 {
@@ -44,13 +54,3 @@ Edit `config.json` to add participant details and set constraints:
   "BUDGET": 20
 }
 ```
-
-3. Run the script
-
-```bash
-node index.js
-```
-
-Or
-
-Go to `http://localhost:8080/secret-santa`
