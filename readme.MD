@@ -43,7 +43,7 @@ To send out SMS notifications, you'll need to add a new file named `apikey.json`
    }
    ```
 
-3. run 
+3. Run the script 
 
 ```bash
 node run.js
@@ -64,7 +64,7 @@ You can update the `config.json` for what you would like the algorithms to run o
 {
   "PARTICIPANTS": [
     "Ahnaf 12345689000",
-    "Jubair +12345689000"
+    "Jubair 12345689000"
     // Add more participants here
   ],
   "DONT_PAIR": [
