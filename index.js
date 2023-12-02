@@ -1,5 +1,6 @@
 // Load and process config file
 const { PARTICIPANTS, DONT_PAIR, DONT_REPEAT, BUDGET } = require('./config.json');
+const { key = '' } = require('./apikey.json');
 
 /**
  * The function "createParticipant" takes an array of participant data and returns an array of
@@ -88,25 +89,25 @@ const isValidMatch = (giver, receiver) => {
  * reaches the retry limit without finding valid matches.
  */
 const createMatches = (participants, retryLimit = 10) => {
-    let attempt = 0;
+  let attempt = 0;
 
-    while (attempt < retryLimit) {
-        shuffleArray(participants);
+  while (attempt < retryLimit) {
+    shuffleArray(participants);
 
-        const validMatches = participants.every((giver, giverIndex) => {
-            const receiverIndex = (giverIndex + 1) % participants.length;
-            const receiver = participants[receiverIndex];
-            return isValidMatch(giver, receiver);
-        });
+    const validMatches = participants.every((giver, giverIndex) => {
+      const receiverIndex = (giverIndex + 1) % participants.length;
+      const receiver = participants[receiverIndex];
+      return isValidMatch(giver, receiver);
+    });
 
-        if (validMatches) {
-            return participants;
-        }
-
-        attempt++;
+    if (validMatches) {
+      return participants;
     }
 
-    throw new Error('Unable to find suitable matches for all participants.');
+    attempt++;
+  }
+
+  throw new Error('Unable to find suitable matches for all participants.');
 };
 
 /**
@@ -118,8 +119,40 @@ const createMatches = (participants, retryLimit = 10) => {
  * the secret santa participants.
  */
 const sendSMS = (matches) => {
+  if (!key) {
+    throw new Error('Unable to sent texts without api key!');
+  }
   const budget = BUDGET;
-  // To-do: Implement SMS functionality
+  const messagesSent = matches.map(async (giver, index) => {
+    const receiver = matches[(index + 1) % matches.length];
+    const message = `🎅 Hello ${giver.name}, you got ${receiver.name} for Secret Santa! 🎁 Budget: $${budget}. 🌟 Since not everyone filled up the wishlist/hobby list in time, you just gotta look up the excel sheet for their preferences. Happy Holidays! 🎄🎉`;
+
+    console.log(`Sending SMS to ${giver.name}...`);
+    console.log(message);
+
+    try {
+      const response = await fetch('https://textbelt.com/text', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phone: giver.phone,
+          message: message,
+          key
+        })
+      });
+
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error(`Error sending SMS to ${giver.name}:`, error);
+    }
+  });
+
+  return Promise.all(messagesSent);
+
 };
 
 /**
@@ -136,13 +169,13 @@ const runSecretSanta = async () => {
       console.log(`${giver.name} got ${receiver.name} for Secret Santa.`);
     });
 
-    // Uncomment to send SMS
-    // await sendSMS(matches, BUDGET);
-    // console.log('Secret Santa messages sent successfully!');
+    await sendSMS(matches);
+    console.log('Secret Santa messages sent successfully!');
   } catch (error) {
     console.error('Error in Secret Santa:', error.message);
   }
 };
+
 
 module.exports = {
   prepareParticipants,
@@ -151,4 +184,3 @@ module.exports = {
   runSecretSanta
 };
 
-// runSecretSanta();

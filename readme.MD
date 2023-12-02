@@ -29,6 +29,29 @@ npm install && npm run start
 ```
 and go to `http://localhost:8080/secret-santa`
 
+## SMS Integration (NOT INTEGRATED IN WEBAPP YET!) 📱💬
+
+To send out SMS notifications, you'll need to add a new file named `apikey.json` in the project root with your [Textbelt](https://textbelt.com/) API key. Here's how:
+
+1. Create a file named `apikey.json` in the project root.
+
+2. Add your Textbelt API key as follows:
+
+   ```json
+   {
+     "key": "YOUR_TEXTBELT_KEY"
+   }
+   ```
+
+3. run 
+
+```bash
+node run.js
+```
+The matching algorithm will use this key to send SMS notifications to participants. 📤🎄
+
+Note: Get your API key from [Textbelt](https://textbelt.com/).
+
 ## Implementation 🚀
 
 Explore a variety of algorithmic approaches to the Secret Santa challenge! Check out the `different-algorithm-implementation` folder, where you'll find multiple implementations, each offering a unique take on solving the Secret Santa puzzle. Just run `node` on the JavaScript files and see the matches pop up in your console. It's a great way to compare methods and have some coding fun! 🎲
