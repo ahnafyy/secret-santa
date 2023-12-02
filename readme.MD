@@ -63,8 +63,8 @@ You can update the `config.json` for what you would like the algorithms to run o
 ```json
 {
   "PARTICIPANTS": [
-    "Ahnaf <+12345689000>",
-    "Jubair <+12345689000>"
+    "Ahnaf 12345689000",
+    "Jubair +12345689000"
     // Add more participants here
   ],
   "DONT_PAIR": [
