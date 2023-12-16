@@ -10,11 +10,21 @@
     "Rafid 12345689000",
     "Shai 12345689000"
   ],
+  "DONT_REPEAT": [
+    "Clara, Jubair",
+    "Jubair, Mobu",
+    "Mobu, Turna",
+    "Turna, Ahnaf",
+    "Ahnaf, Monica",
+    "Monica, Rafid",
+    "Rafid, Hunter",
+    "Hunter, Shai",
+    "Shai, Clara"
+  ],
   "DONT_PAIR": [
     "Turna, Hunter",
     "Mobu, Monica",
     "Rafid, Shai"
   ],
-  "DONT_REPEAT": [],
   "BUDGET": 50
 }
